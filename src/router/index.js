@@ -14,12 +14,6 @@ export default new Router({
       redirect: 'login'
     },
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
-      meta: { requiresAuth: true }
-    },
-    {
       path: '/login',
       name: 'Login',
       component: Login
