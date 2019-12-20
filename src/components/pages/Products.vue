@@ -13,7 +13,7 @@
           <th width="120">原價</th>
           <th width="120">售價</th>
           <th width="100">是否啟用</th>
-          <th width="80">編輯</th>
+          <th width="120">編輯</th>
         </tr>
       </thead>
       <tbody>
@@ -27,8 +27,13 @@
             <span v-else>未啟用</span>
           </td>
           <td>
+          <div class="btn-group" role="group">
             <button class="btn btn-outline-primary btn-sm"
               @click="openModal(false, item)">編輯</button>
+            <button class="btn btn-outline-danger btn-sm"
+              @click="removeProduct(item.id)">刪除</button>
+          </div>
+            
           </td>
         </tr>
       </tbody>
@@ -207,6 +212,15 @@ export default {
           this.$bus.$emit('message:push', response.data.message, 'danger');
           this.status.fileUploading = false;
         }
+      })
+    },
+    removeProduct(id) {
+      const vm = this;
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${id}`;
+
+      this.$http.delete(api).then((response) => {
+        console.log(response.data);
+        vm.getProducts();
       })
     }
   },
