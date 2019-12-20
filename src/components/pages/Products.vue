@@ -203,6 +203,9 @@ export default {
         if (response.data.success) {
           vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl);
           this.status.fileUploading = false;
+        } else {
+          this.$bus.$emit('message:push', response.data.message, 'danger');
+          this.status.fileUploading = false;
         }
       })
     }
