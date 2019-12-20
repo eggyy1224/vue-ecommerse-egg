@@ -38,7 +38,9 @@
         </tr>
       </tbody>
     </table>
-
+    <Pagination :pagination="pagination"
+      v-on:getlist="getProducts">
+    </Pagination>
     <!-- Modal -->
     <div class="modal fade" id="productModal"
       tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -147,12 +149,14 @@
 
 <script>
 import $ from 'jquery';
+import Pagination from '@/components/Pagination';
 
 export default {
   data() {
     return {
       products: [],
       tempProduct: {},
+      pagination: {},
       isNew: false,
       isLoadin: false,
       status: {
@@ -160,13 +164,17 @@ export default {
       }
     };
   },
+  components: {
+    Pagination,
+  },
   methods: {
-    getProducts() {
+    getProducts(page=1) {
       const vm = this;
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products`;
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/?page=${page}`;
       this.isLoading = true;
       this.$http.get(api).then((response) => {
         vm.products = response.data.products;
+        vm.pagination = response.data.pagination;
         this.isLoading = false;
       })
     },
